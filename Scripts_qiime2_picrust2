@@ -1,0 +1,59 @@
+## picrust2 in qiime2 ##
+# installed in qiime2-2021.2 environment
+
+
+mkdir q2-picrust2
+qiime picrust2 full-pipeline \
+   --i-table table_raref_1127.qza \
+   --i-seq ./dada2/rep-seqs-dada2.qza \
+   --output-dir ./q2-picrust2/q2-picrust2_output \
+   --p-placement-tool sepp \
+   --p-threads 28 \
+   --p-hsp-method pic \
+   --p-max-nsti 2 \
+   --verbose
+
+# summarize
+qiime feature-table summarize \
+   --i-table q2-picrust2_output/pathway_abundance.qza \
+   --o-visualization q2-picrust2_output/pathway_abundance.qzv
+
+qiime feature-table summarize \
+   --i-table q2-picrust2_output/ko_metagenome.qza \
+   --o-visualization q2-picrust2_output/ko_metagenome.qzv
+
+qiime feature-table summarize \
+   --i-table q2-picrust2_output/ec_metagenome.qza \
+   --o-visualization q2-picrust2_output/ec_metagenome.qzv
+
+# core metrics
+qiime diversity core-metrics \
+   --i-table q2-picrust2_output/pathway_abundance.qza \
+   --p-sampling-depth 69710 \
+   --m-metadata-file metadata_stool.tsv \
+   --output-dir q2-picrust2_output/pathabun_core_metrics_out \
+   --p-n-jobs 1
+
+qiime diversity core-metrics \
+   --i-table q2-picrust2_output/ko_metagenome.qza \
+   --p-sampling-depth 584531 \
+   --m-metadata-file metadata_stool.tsv \
+   --output-dir q2-picrust2_output/kometagen_core_metrics_out \
+   --p-n-jobs 1
+
+qiime diversity core-metrics \
+   --i-table q2-picrust2_output/ec_metagenome.qza \
+   --p-sampling-depth 313786 \
+   --m-metadata-file metadata_stool.tsv \
+   --output-dir q2-picrust2_output/ecmetagen_core_metrics_out \
+   --p-n-jobs 1
+
+# export
+qiime tools export \
+   --input-path q2-picrust2_output/pathway_abundance.qza \
+   --output-path q2-picrust2_output/pathabun_exported
+
+biom convert \
+   -i pathabun_exported/feature-table.biom \
+   -o pathabun_exported/feature-table.biom.tsv \
+   --to-tsv

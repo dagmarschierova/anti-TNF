@@ -1,0 +1,268 @@
+# Alpha and beta diversity
+
+
+# alpha
+mkdir ./diversity_Large_cohort/
+mkdir ./diversity_Large_cohort/alpha/
+
+qiime diversity alpha \
+  --i-table ./table_Large_cohort.qza \
+  --p-metric chao1 \
+  --o-alpha-diversity ./diversity_Large_cohort/alpha/chao1_vector.qza
+
+qiime diversity alpha \
+  --i-table ./table_Large_cohort.qza \
+  --p-metric shannon \
+  --o-alpha-diversity ./diversity_Large_cohort/alpha/shannon_vector.qza
+
+qiime diversity alpha \
+  --i-table ./table_Large_cohort.qza \
+  --p-metric observed_features \
+  --o-alpha-diversity ./diversity_Large_cohort/alpha/observed_features_vector.qza
+
+qiime diversity alpha-phylogenetic \
+  --i-table ./table_Large_cohort.qza \
+  --i-phylogeny ./phylo/rooted-tree.qza \
+  --p-metric faith_pd \
+  --o-alpha-diversity ./diversity_Large_cohort/alpha/faith_pd_vector.qza
+
+# alpha diversity associations
+qiime diversity alpha-group-significance \
+    --i-alpha-diversity ./diversity_Large_cohort/alpha/chao1_vector.qza \
+    --m-metadata-file ./metadata_stool.tsv \
+    --o-visualization ./diversity_Large_cohort/alpha/chao1-group-significance.qzv
+
+qiime diversity alpha-group-significance \
+    --i-alpha-diversity ./diversity_Large_cohort/alpha/faith_pd_vector.qza \
+    --m-metadata-file ./metadata_stool.tsv \
+    --o-visualization ./diversity_Large_cohort/alpha/faith-pd-group-significance.qzv
+
+qiime diversity alpha-group-significance \
+    --i-alpha-diversity ./diversity_Large_cohort/alpha/shannon_vector.qza \
+    --m-metadata-file ./metadata_stool.tsv \
+    --o-visualization ./diversity_Large_cohort/alpha/shannon-group-significance.qzv
+
+qiime diversity alpha-group-significance \
+    --i-alpha-diversity ./diversity_Large_cohort/alpha/observed_features_vector.qza \
+    --m-metadata-file ./metadata_stool.tsv \
+    --o-visualization ./diversity_Large_cohort/alpha/observed-features-group-significance.qzv
+
+# alpha longitudial volatility
+qiime longitudinal volatility \
+      --m-metadata-file metadata_stool.tsv \
+      --m-metadata-file ./diversity_Large_cohort/alpha/shannon_vector.qza \
+      --p-default-metric shannon_entropy \
+      --p-default-group-column Dg \
+      --p-state-column Week_num \
+      --p-individual-id-column Patient \
+      --o-visualization ./diversity_Large_cohort/alpha/shannon-longit.qzv
+
+qiime longitudinal volatility \
+      --m-metadata-file metadata_stool.tsv \
+      --m-metadata-file ./diversity_Large_cohort/alpha/chao1_vector.qza \
+      --p-default-metric chao1 \
+      --p-default-group-column Dg \
+      --p-state-column Week_num \
+      --p-individual-id-column Patient \
+      --o-visualization ./diversity_Large_cohort/alpha/chao1-longit.qzv
+
+qiime longitudinal volatility \
+      --m-metadata-file metadata_stool.tsv \
+      --m-metadata-file ./diversity_Large_cohort/alpha/observed_features_vector.qza \
+      --p-default-metric observed_features \
+      --p-default-group-column Dg \
+      --p-state-column Week_num \
+      --p-individual-id-column Patient \
+      --o-visualization ./diversity_Large_cohort/alpha/observed_features-longit.qzv
+
+qiime longitudinal volatility \
+      --m-metadata-file metadata_stool.tsv \
+      --m-metadata-file ./diversity_Large_cohort/alpha/faith_pd_vector.qza \
+      --p-default-metric faith_pd \
+      --p-default-group-column Dg \
+      --p-state-column Week_num \
+      --p-individual-id-column Patient \
+      --o-visualization ./diversity_Large_cohort/alpha/faith_pd-longit.qzv
+
+
+# alpha diversity correlations
+qiime diversity alpha-correlation \
+      --i-alpha-diversity ./diversity_Large_cohort/alpha/shannon_vector.qza \
+      --m-metadata-file metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/alpha/shannon_corr.qzv
+
+qiime diversity alpha-correlation \
+      --i-alpha-diversity ./diversity_Large_cohort/alpha/chao1_vector.qza \
+      --m-metadata-file metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/alpha/chao1_corr.qzv
+
+qiime diversity alpha-correlation \
+      --i-alpha-diversity ./diversity_Large_cohort/alpha/observed_features_vector.qza \
+      --m-metadata-file metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/alpha/observed_features_corr.qzv
+
+qiime diversity alpha-correlation \
+      --i-alpha-diversity ./diversity_Large_cohort/alpha/faith_pd_vector.qza \
+      --m-metadata-file metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/alpha/faith_pd_corr.qzv
+
+
+
+# beta diversity
+mkdir ./diversity_Large_cohort/beta/
+
+qiime diversity beta \
+  --i-table ./table_Large_cohort.qza \
+  --p-metric braycurtis \
+  --o-distance-matrix ./diversity_Large_cohort/beta/bray_curtis_distance_matrix.qza
+
+qiime diversity beta \
+  --i-table ./table_Large_cohort.qza \
+  --p-metric jaccard \
+  --o-distance-matrix ./diversity_Large_cohort/beta/jaccard_distance_matrix.qza
+
+qiime diversity beta-phylogenetic \
+  --i-table ./table_Large_cohort.qza \
+  --i-phylogeny ./phylo/rooted-tree.qza \
+  --p-metric unweighted_unifrac \
+  --o-distance-matrix ./diversity_Large_cohort/beta/unweighted_unifrac_distance_matrix.qza
+
+qiime diversity beta-phylogenetic \
+  --i-table ./table_Large_cohort.qza \
+  --i-phylogeny ./phylo/rooted-tree.qza \
+  --p-metric weighted_unifrac \
+  --o-distance-matrix ./diversity_Large_cohort/beta/weighted_unifrac_distance_matrix.qza
+
+
+#beta diversity associations
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/unweighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --p-method permanova \
+  --o-visualization ./diversity_Large_cohort/beta/unweighted_unifrac_significance-Dg.qzv \
+  --p-pairwise
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/weighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --p-method permanova \
+  --o-visualization ./diversity_Large_cohort/beta/weighted_unifrac_significance-Dg.qzv \
+  --p-pairwise
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/jaccard_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --p-method permanova \
+  --o-visualization ./diversity_Large_cohort/beta/jaccard_significance-Dg.qzv \
+  --p-pairwise
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/bray_curtis_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --p-method permanova \
+  --o-visualization ./diversity_Large_cohort/beta/bray_curtis_significance-Dg.qzv \
+  --p-pairwise
+
+
+
+
+#beta diversity permdisp
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/jaccard_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --o-visualization ./diversity_Large_cohort/beta/jaccard_significance-Dg-disp.qzv \
+  --p-method permdisp
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/bray_curtis_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --o-visualization ./diversity_Large_cohort/beta/bray_curtis_significance-Dg-disp.qzv \
+  --p-method permdisp
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/weighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --o-visualization ./diversity_Large_cohort/beta/weighted_unifrac_significance-Dg-disp.qzv \
+  --p-method permdisp
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix ./diversity_Large_cohort/beta/unweighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --m-metadata-column Dg \
+  --o-visualization ./diversity_Large_cohort/beta/unweighted_unifrac_significance-Dg-disp.qzv \
+  --p-method permdisp
+
+
+
+#beta diversity adonis
+qiime diversity adonis \
+  --i-distance-matrix ./diversity_Large_cohort/beta/unweighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --o-visualization ./diversity_Large_cohort/beta/unweighted_adonis.qzv \
+  --p-formula "Diagnosis+Drug+Localization+Intestinal_surgery+BMI_category+Sex+Smoker+Visit+Individual"
+
+qiime diversity adonis \
+  --i-distance-matrix ./diversity_Large_cohort/beta/weighted_unifrac_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --o-visualization ./diversity_Large_cohort/beta/weighted_adonis.qzv \
+  --p-formula "Diagnosis+Drug+Localization+Intestinal_surgery+BMI_category+Sex+Smoker+Visit+Individual"
+
+qiime diversity adonis \
+  --i-distance-matrix ./diversity_Large_cohort/beta/bray_curtis_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --o-visualization ./diversity_Large_cohort/beta/bray_curtis_adonis.qzv \
+  --p-formula "Diagnosis+Drug+Localization+Intestinal_surgery+BMI_category+Sex+Smoker+Visit+Individual"
+
+qiime diversity adonis \
+  --i-distance-matrix ./diversity_Large_cohort/beta/jaccard_distance_matrix.qza \
+  --m-metadata-file ./metadata_stool.tsv \
+  --o-visualization ./diversity_Large_cohort/beta/jaccard_adonis.qzv \
+  --p-formula "Diagnosis+Drug+Localization+Intestinal_surgery+BMI_category+Sex+Smoker+Visit+Individual"
+
+
+
+# pca and emperor
+qiime diversity pcoa \
+    --i-distance-matrix ./diversity_Large_cohort/beta/unweighted_unifrac_distance_matrix.qza \
+    --o-pcoa ./diversity_Large_cohort/beta/unweighted_unifrac_pca.qza
+
+qiime diversity pcoa \
+    --i-distance-matrix ./diversity_Large_cohort/beta/weighted_unifrac_distance_matrix.qza \
+    --o-pcoa ./diversity_Large_cohort/beta/weighted_unifrac_pca.qza
+
+qiime diversity pcoa \
+    --i-distance-matrix ./diversity_Large_cohort/beta/bray_curtis_distance_matrix.qza \
+    --o-pcoa ./diversity_Large_cohort/beta/bray_curtis_pca.qza
+
+qiime diversity pcoa \
+    --i-distance-matrix ./diversity_Large_cohort/beta/jaccard_distance_matrix.qza \
+    --o-pcoa ./diversity_Large_cohort/beta/jaccard_pca.qza
+
+
+qiime emperor plot \
+      --i-pcoa ./diversity_Large_cohort/beta/unweighted_unifrac_pca.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/beta/unweighted_unifrac_emperor.qzv
+
+qiime emperor plot \
+      --i-pcoa ./diversity_Large_cohort/beta/weighted_unifrac_pca.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/beta/weighted_unifrac_emperor.qzv
+
+qiime emperor plot \
+      --i-pcoa ./diversity_Large_cohort/beta/bray_curtis_pca.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/beta/bray_curtis_emperor.qzv
+
+qiime emperor plot \
+      --i-pcoa ./diversity_Large_cohort/beta/jaccard_pca.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./diversity_Large_cohort/beta/jaccard_emperor.qzv

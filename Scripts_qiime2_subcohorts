@@ -1,0 +1,441 @@
+# filter HC longitudinal
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[HC_longitudinal] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HC_longitudinal.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HC_longitudinal.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_HC_longitudinal.qzv
+
+# filter P longitudinal
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[P_longitudinal] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_P_longitudinal.qza
+
+qiime feature-table summarize \
+      --i-table ./table_P_longitudinal.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_P_longitudinal.qzv
+
+# filter HC and P longitudinal
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[HCP_longitudinal] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HCP_longitudinal.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HCP_longitudinal.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_HCP_longitudinal.qzv
+
+# filter CD from P longitudinal
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[P_longitudinal-CD] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_P_longitudinal-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_P_longitudinal-CD.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_P_longitudinal-CD.qzv
+
+# filter UC from P longitudinal
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[P_longitudinal-UC] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_P_longitudinal-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_P_longitudinal-UC.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_P_longitudinal-UC.qzv
+
+
+# filter Week38
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_38.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_38.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_38.qzv
+
+# filter CD patients from week 38
+qiime feature-table filter-samples \
+      --i-table ./table_Week_38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_38-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_38-CD.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_38-CD.qzv
+
+# filter UC patients from week 38
+qiime feature-table filter-samples \
+      --i-table ./table_Week_38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_38-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_38-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Week_38-UC.qzv
+
+
+# filter Week3032
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_3032] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_3032.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_3032.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_3032.qzv
+
+# filter Week26
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_26] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_26.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_26.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_26.qzv
+
+# filter Week2022
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_2022] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_2022.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_2022.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_2022.qzv
+
+# filter Week14
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_14] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_14.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_14.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_14.qzv
+
+# filter Week68
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_68] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_68.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_68.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_68.qzv
+
+# filter Week2
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_2] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Week_2.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Week_2.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Week_2.qzv
+
+
+
+
+# filter Start_End
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Start_End] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Start_End.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Start_End.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Start_End.qzv
+
+# filter Duplicate HC
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Duplicate_HC] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Duplicate_HC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Duplicate_HC.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Duplicate_HC.qzv
+
+# filter baseline all
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Baseline_all] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Baseline_all.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Baseline_all.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Baseline_all.qzv
+
+# filter baseline patients
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Baseline_patients] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Baseline_patients.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Baseline_patients.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Baseline_patients.qzv
+
+# filter CD from baseline patients
+qiime feature-table filter-samples \
+      --i-table ./table_Baseline_patients.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Baseline_patients-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Baseline_patients-CD.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Baseline_patients-CD.qzv
+
+
+# filter UC from baseline patients
+qiime feature-table filter-samples \
+      --i-table ./table_Baseline_patients.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Baseline_patients-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Baseline_patients-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Baseline_patients-UC.qzv
+
+
+# filter Patients with more than 1 sample
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Patients_relevant] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Patients_relevant.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Patients_relevant.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Patients_relevant.qzv
+
+# filter CD patients from Patients_relevant
+qiime feature-table filter-samples \
+      --i-table ./table_Patients_relevant.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Patients_relevant-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Patients_relevant-CD.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Patients_relevant-CD.qzv
+
+# filter UC patients from Patients_relevant
+qiime feature-table filter-samples \
+      --i-table ./table_Patients_relevant.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Patients_relevant-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Patients_relevant-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Patients_relevant-UC.qzv
+
+
+# filter out duplicated HC and mock
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Large_cohort] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Large_cohort.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Large_cohort.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_Large_cohort.qzv
+
+# filter UC patients from Large_cohort
+qiime feature-table filter-samples \
+      --i-table ./table_Large_cohort.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Large_cohort-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Large_cohort-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Large_cohort-UC.qzv
+
+# filter CD patients from Large_cohort
+qiime feature-table filter-samples \
+      --i-table ./table_Large_cohort.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_Large_cohort-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_Large_cohort-CD.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Large_cohort-CD.qzv
+
+
+# filter HC and week 38
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[HC_week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HC_week38.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HC_week38.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_HC_week38.qzv
+
+
+# filter CD from HC and week 38
+qiime feature-table filter-samples \
+      --i-table ./table_HC_week38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD', 'HC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HC_week38-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HC_week38-CD.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_Baseline_patients-CD.qzv
+
+
+# filter UC from HC and week 38
+qiime feature-table filter-samples \
+      --i-table ./table_HC_week38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC', 'HC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HC_week38-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HC_week38-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_HC_week38-UC.qzv
+
+
+
+# filter week_38 and week_0 healthy controls and patients
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[HCP_week_038] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HCP_week038.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HCP_week038.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_HCP_week038.qzv
+
+# filter CD from HCP longitudinal week 038
+qiime feature-table filter-samples \
+      --i-table ./table_HCP_week038.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD', 'HC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HCP_week038-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HCP_week038-CD.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_HCP_week038-CD.qzv
+
+# filter UC from HCP longitudinal week 038
+qiime feature-table filter-samples \
+      --i-table ./table_HCP_week038.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC', 'HC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_HCP_week038-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_HCP_week038-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_HCP_week038-UC.qzv
+
+# filter week 38 only
+qiime feature-table filter-samples \
+      --i-table ./table_raref_1127.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Week] IN ('week_38')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_week38_only.qza
+
+qiime feature-table summarize \
+      --i-table ./table_week38_only.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_week38_only.qzv

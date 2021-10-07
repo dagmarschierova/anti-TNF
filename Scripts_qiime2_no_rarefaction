@@ -1,0 +1,180 @@
+qiime feature-table filter-samples \
+      --i-table ./dada2/table-dada2.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[#SampleID] IN ('isolation_ctrl_B1', 'PCR_ctrl_B1', 'isolation_ctrl_B2', 'PCR_ctrl_B2', 'mock_4_DNA', 'mock_4_bact', 'mock_2_DNA', 'mock_2_bact', 'K9_Z80_1', 'K11_M87_1', 'K20_Z76_1', '21_PP_8_ADA')" \
+      --p-exclude-ids \
+      --o-filtered-table ./table_no_raref.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_no_raref.qzv
+
+
+
+# filter Week38
+qiime feature-table filter-samples \
+      --i-table ./table_no_raref.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_no_raref_Week_38.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref_Week_38.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_no_raref_Week_38.qzv
+
+# filter CD patients from week 38
+qiime feature-table filter-samples \
+      --i-table ./table_no_raref_Week_38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_no_raref_Week_38-CD.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref_Week_38-CD.qza \
+      --m-sample-metadata-file ./metadata_subcohorts.tsv \
+      --o-visualization ./table_no_raref_Week_38-CD.qzv
+
+# filter UC patients from week 38
+qiime feature-table filter-samples \
+      --i-table ./table_no_raref_Week_38.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_no_raref_Week_38-UC.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref_Week_38-UC.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_no_raref_Week_38-UC.qzv
+
+# filter Large cohort
+qiime feature-table filter-samples \
+      --i-table ./table_no_raref.qza \
+      --m-metadata-file ./metadata_subcohorts.tsv \
+      --p-where "[Large_cohort] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./table_no_raref_Large_cohort.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref_Large_cohort.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_no_raref_Large_cohort.qzv
+
+# filter Large cohort patients
+qiime feature-table filter-samples \
+      --i-table ./table_no_raref_Large_cohort.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --p-where "[Dg] IN ('HC')" \
+      --p-exclude-ids \
+      --o-filtered-table ./table_no_raref_Large_cohort_P.qza
+
+qiime feature-table summarize \
+      --i-table ./table_no_raref_Large_cohort_P.qza \
+      --m-sample-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./table_no_raref_Large_cohort_P.qzv
+
+
+
+
+# barplots no rarefaction
+qiime taxa barplot \
+      --i-table ./table_no_raref.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./taxonomy/taxa-bar-plots_vsearch_silva_99-no_raref.qzv
+
+
+mkdir ./taxonomy_no_raref_Week_38-CD/
+qiime taxa barplot \
+      --i-table ./table_no_raref_Week_38-CD.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./taxonomy_no_raref_Week_38-CD/taxa-bar-plots_vsearch_silva_99-Week_38-CD.qzv
+
+qiime taxa collapse \
+      --i-table ./table_no_raref_Week_38-CD.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --p-level 7 \
+      --o-collapsed-table ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-abs.qza
+
+qiime feature-table relative-frequency \
+      --i-table ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-abs.qza \
+      --o-relative-frequency-table ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-rel.qza
+
+qiime tools export \
+      --input-path ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-rel.qza \
+      --output-path ./taxonomy_no_raref_Week_38-CD/export
+
+mv ./taxonomy_no_raref_Week_38-CD/export/feature-table.biom ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-rel.biom
+rm -rf ./taxonomy_no_raref_Week_38-CD/export/
+
+biom convert \
+    -i ./taxonomy_no_raref_Week_38-CD/taxa_table-L7-rel.biom \
+    -o ./taxonomy_no_raref_Week_38-CD/taxonomy-L7-rel.tsv \
+    --to-tsv
+
+
+
+
+mkdir ./taxonomy_no_raref_Week_38-UC/
+qiime taxa barplot \
+      --i-table ./table_no_raref_Week_38-UC.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./taxonomy_no_raref_Week_38-UC/taxa-bar-plots_vsearch_silva_99-Week_38-UC.qzv
+
+qiime taxa collapse \
+      --i-table ./table_no_raref_Week_38-UC.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --p-level 7 \
+      --o-collapsed-table ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-abs.qza
+
+qiime feature-table relative-frequency \
+      --i-table ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-abs.qza \
+      --o-relative-frequency-table ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-rel.qza
+
+qiime tools export \
+      --input-path ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-rel.qza \
+      --output-path ./taxonomy_no_raref_Week_38-UC/export
+
+mv ./taxonomy_no_raref_Week_38-UC/export/feature-table.biom ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-rel.biom
+rm -rf ./taxonomy_no_raref_Week_38-UC/export/
+
+biom convert \
+    -i ./taxonomy_no_raref_Week_38-UC/taxa_table-L7-rel.biom \
+    -o ./taxonomy_no_raref_Week_38-UC/taxonomy-L7-rel.tsv \
+    --to-tsv
+
+
+mkdir ./taxonomy_no_raref_Large_cohort_P/
+qiime taxa barplot \
+      --i-table ./table_no_raref_Large_cohort_P.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./taxonomy_no_raref_Large_cohort_P/taxa-bar-plots_vsearch_silva_99-Large_cohort_P.qzv
+
+qiime taxa collapse \
+      --i-table ./table_no_raref_Large_cohort_P.qza \
+      --i-taxonomy ./taxonomy/taxonomy-vsearch-silva_99.qza \
+      --p-level 6 \
+      --o-collapsed-table ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-abs.qza
+
+qiime feature-table relative-frequency \
+      --i-table ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-abs.qza \
+      --o-relative-frequency-table ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-rel.qza
+
+qiime tools export \
+      --input-path ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-rel.qza \
+      --output-path ./taxonomy_no_raref_Large_cohort_P/export
+
+mv ./taxonomy_no_raref_Large_cohort_P/export/feature-table.biom ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-rel.biom
+rm -rf ./taxonomy_no_raref_Large_cohort_P/export/
+
+biom convert \
+    -i ./taxonomy_no_raref_Large_cohort_P/taxa_table-L6-rel.biom \
+    -o ./taxonomy_no_raref_Large_cohort_P/taxonomy-L6-rel.tsv \
+    --to-tsv

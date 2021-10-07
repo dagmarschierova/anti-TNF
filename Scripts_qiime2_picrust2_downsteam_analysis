@@ -1,0 +1,183 @@
+# filter low abundant features
+qiime feature-table filter-features \
+  --i-table ./pathway_abundance.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./pathway_abundance50.qza
+
+qiime feature-table filter-features \
+  --i-table ./ec_metagenome.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./ec_metagenome50.qza
+
+qiime feature-table filter-features \
+  --i-table ./ko_metagenome.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./ko_metagenome50.qza
+
+
+# add pseadocount
+qiime composition add-pseudocount \
+  --i-table ./pathway_abundance50.qza \
+  --o-composition-table ./pathway_abundance50_abund_comp.qza
+
+qiime composition add-pseudocount \
+  --i-table ./ec_metagenome50.qza \
+  --o-composition-table ./ec_metagenome50_abund_comp.qza
+
+qiime composition add-pseudocount \
+  --i-table ./ko_metagenome50.qza \
+  --o-composition-table ./ko_metagenome50_abund_comp.qza
+
+
+# run ancom
+qiime composition ancom \
+  --i-table ./pathway_abundance50_abund_comp.qza \
+  --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+  --m-metadata-column Disease_status \
+  --o-visualization ./pathabun_core_metrics_out/pathabun_ancom_Disease_status.qzv
+
+qiime composition ancom \
+    --i-table ./ec_metagenome50_abund_comp.qza \
+    --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+    --m-metadata-column Disease_status \
+    --o-visualization ./ecmetagen_core_metrics_out/ecmetagen_ancom_Disease_status.qzv
+
+qiime composition ancom \
+    --i-table ./ko_metagenome50_abund_comp.qza \
+    --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+    --m-metadata-column Disease_status \
+    --o-visualization ./kometagen_core_metrics_out/kometagen_ancom_Disease_status.qzv
+
+
+
+
+# filter week 38
+qiime feature-table filter-samples \
+      --i-table ./pathway_abundance.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_subcohorts.tsv \
+      --p-where "[Week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./pathway_abundance_Week_38.qza
+
+qiime feature-table filter-samples \
+      --i-table ./pathway_abundance_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./pathway_abundance_Week_38-CD.qza
+
+qiime feature-table filter-samples \
+      --i-table ./pathway_abundance_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./pathway_abundance_Week_38-UC.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ec_metagenome.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_subcohorts.tsv \
+      --p-where "[Week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ec_metagenome_Week_38.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ec_metagenome_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ec_metagenome_Week_38-CD.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ec_metagenome_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ec_metagenome_Week_38-UC.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ko_metagenome.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_subcohorts.tsv \
+      --p-where "[Week_38] IN ('yes')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ko_metagenome_Week_38.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ko_metagenome_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('CD')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ko_metagenome_Week_38-CD.qza
+
+qiime feature-table filter-samples \
+      --i-table ./ko_metagenome_Week_38.qza \
+      --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+      --p-where "[Dg] IN ('UC')" \
+      --p-no-exclude-ids \
+      --o-filtered-table ./ko_metagenome_Week_38-UC.qza
+
+
+
+# filter low abundant features
+qiime feature-table filter-features \
+  --i-table ./pathway_abundance.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./pathway_abundance_Week_38-CD50.qza
+
+qiime feature-table filter-features \
+  --i-table ./ec_metagenome.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./ec_metagenome_Week_38-CD50.qza
+
+qiime feature-table filter-features \
+  --i-table ./ko_metagenome.qza \
+  --p-min-frequency 50 \
+  --p-min-samples 4 \
+  --o-filtered-table ./ko_metagenome_Week_38-CD50.qza
+
+
+# add pseadocount
+qiime composition add-pseudocount \
+  --i-table ./pathway_abundance_Week_38-CD50.qza \
+  --o-composition-table ./pathway_abundance_Week_38-CD50_abund_comp.qza
+
+qiime composition add-pseudocount \
+  --i-table ./ec_metagenome_Week_38-CD50.qza \
+  --o-composition-table ./ec_metagenome_Week_38-CD50_abund_comp.qza
+
+qiime composition add-pseudocount \
+  --i-table ./ko_metagenome_Week_38-CD50.qza \
+  --o-composition-table ./ko_metagenome_Week_38-CD50_abund_comp.qza
+
+
+# run ancom
+qiime composition ancom \
+  --i-table ./pathway_abundance_Week_38-CD50_abund_comp.qza \
+  --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+  --m-metadata-column Week \
+  --o-visualization ./pathabun_core_metrics_out/ancom_pathabun_Week-CD.qzv
+
+qiime composition ancom \
+    --i-table ./ec_metagenome_Week_38-CD50_abund_comp.qza \
+    --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+    --m-metadata-column Week \
+    --o-visualization ./ecmetagen_core_metrics_out/ancom_ecmetagen_Week-CD.qzv
+
+qiime composition ancom \
+    --i-table ./ko_metagenome_Week_38-CD50_abund_comp.qza \
+    --m-metadata-file /mnt/DATA/dasa/roubalova/qiime_results_B/metadata_stool.tsv \
+    --m-metadata-column Week \
+    --o-visualization ./kometagen_core_metrics_out/ancom_kometagen_Week-CD.qzv
+
+
+# heatmap
+qiime feature-table heatmap \
+  --i-table ./pathabun_core_metrics_out/rarefied_table.qza \
+  --m-sample-metadata-file ../metadata_stool.tsv \
+  --m-sample-metadata-column Disease_status \
+  --p-metric 'jaccard' \
+  --o-visualization ./pathabun_core_metrics_out/heatmap-Disease_status.qzv

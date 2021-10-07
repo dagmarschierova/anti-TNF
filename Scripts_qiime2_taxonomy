@@ -1,0 +1,119 @@
+## taxonomy
+mkdir ./taxonomy
+# vsearch
+qiime feature-classifier classify-consensus-vsearch \
+     --i-query ./dada2/rep-seqs-dada2.qza \
+     --i-reference-reads /mnt/DATA/dasa/16S_databases/silva-138-99-seqs.qza \
+     --i-reference-taxonomy /mnt/DATA/dasa/16S_databases/silva-138-99-tax.qza \
+     --p-perc-identity 0.99 \
+     --p-threads 28 \
+     --o-classification ./taxonomy/taxonomy-blast-unite-97-250bp.qza
+
+qiime metadata tabulate \
+     --m-input-file ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+     --o-visualization ./taxonomy/taxonomy-vsearch-silva_99.qzv
+
+
+
+# barplots
+qiime taxa barplot \
+      --i-table ./table_raref_1127.qza \
+      --i-taxonomy ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+      --m-metadata-file ./metadata.tsv \
+      --o-visualization ./taxonomy/taxa-bar-plots_vsearch_silva_99.qzv
+
+mkdir ./taxonomy_no_reref_Large_cohort/
+qiime taxa barplot \
+      --i-table ./table_no_reref_Large_cohort.qza \
+      --i-taxonomy ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+      --m-metadata-file ./metadata_stool.tsv \
+      --o-visualization ./taxonomy_no_reref_Large_cohort/taxa-bar-plots_vsearch_silva_99-no_reref_Large_cohort.qzv
+
+
+# group taxonomy
+qiime feature-table group \
+      --i-table ./table_no_reref_Large_cohort.qza \
+      --p-axis sample \
+      --m-metadata-file ./metadata_stool.tsv \
+      --m-metadata-column "Week" \
+      --p-mode sum \
+      --o-grouped-table ./taxonomy_no_reref_Large_cohort/grouped-table-Week-sum.qza
+
+qiime taxa barplot \
+      --i-table ./taxonomy_no_reref_Large_cohort/grouped-table-Week-sum.qza \
+      --i-taxonomy ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+      --m-metadata-file ./taxonomy_no_reref_Large_cohort/metadata_grouped-Week.tsv \
+      --o-visualization ./taxonomy_no_reref_Large_cohort/taxa-bar-plots_vsearch-Week-sum.qzv
+
+qiime feature-table group \
+      --i-table ./table_no_reref_Large_cohort.qza \
+      --p-axis sample \
+      --m-metadata-file ./metadata_stool.tsv \
+      --m-metadata-column "Week" \
+      --p-mode median-ceiling \
+      --o-grouped-table ./taxonomy_no_reref_Large_cohort/grouped-table-Week-median.qza
+
+qiime taxa barplot \
+      --i-table ./taxonomy_no_reref_Large_cohort/grouped-table-Week-median.qza \
+      --i-taxonomy ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+      --m-metadata-file ./taxonomy_no_reref_Large_cohort/metadata_grouped-Week.tsv \
+      --o-visualization ./taxonomy_no_reref_Large_cohort/taxa-bar-plots_vsearch-Week-median.qzv
+
+
+
+
+
+
+# heatmaps
+qiime feature-table heatmap \
+  --i-table ./table_no_reref_Large_cohort.qza \
+  --m-sample-metadata-file metadata_stool.tsv \
+  --m-sample-metadata-column Dg \
+  --p-metric 'jaccard' \
+  --o-visualization ./taxonomy_no_reref_Large_cohort/heatmap-Dg.qzv
+
+qiime taxa collapse \
+    --i-table ./table_no_reref_Large_cohort.qza \
+    --i-taxonomy ./taxonomy/taxonomy-blast-unite-97-250bp.qza \
+    --p-level 6 \
+    --o-collapsed-table ./taxonomy_no_reref_Large_cohort/taxa_table-no_reref_Large_cohort-L6.qza
+
+qiime feature-table heatmap \
+      --i-table ./taxonomy_no_reref_Large_cohort/taxa_table-no_reref_Large_cohort-L6.qza \
+      --m-sample-metadata-file metadata_stool.tsv \
+      --m-sample-metadata-column Dg \
+      --p-metric 'jaccard' \
+      --p-cluster 'both' \
+      --o-visualization ./taxonomy_no_reref_Large_cohort/heatmap-Dg-L6.qzv
+
+
+# ANCOM
+mkdir ./taxonomy_no_reref_Large_cohort/
+qiime composition add-pseudocount \
+  --i-table ./table_no_raref_Large_cohort.qza \
+  --o-composition-table ./taxonomy_no_raref_Large_cohort/table_no_raref_Large_cohort-pseudocount.qza
+
+
+qiime composition ancom \
+  --i-table ./taxonomy_no_raref_Large_cohort/table_no_raref_Large_cohort-pseudocount.qza \
+  --m-metadata-file metadata_stool.tsv \
+  --m-metadata-column Disease_status \
+  --o-visualization ./taxonomy_no_raref_Large_cohort/ancom-Disease_status-features.qzv
+
+
+
+
+# LMEM on specific features
+qiime feature-table relative-frequency \
+  --i-table ./table_Patients_relevant-UC.qza \
+  --o-relative-frequency-table ./taxonomy_Patients_relevant-UC/table_Patients_relevant-UC-rel.qza
+
+qiime longitudinal linear-mixed-effects \
+        --m-metadata-file ./metadata_stool.tsv \
+        --m-metadata-file ./taxonomy_Patients_relevant-UC/table_Patients_relevant-UC-rel.qza \
+        --p-metric acee44b6ddb442d08127d2ee3fd8806e \
+        --p-state-column Week_num \
+        --p-group-columns Disease_severity_scale2 \
+        --p-individual-id-column Patient \
+        --p-random-effects Week_num \
+        --o-visualization ./taxonomy_Patients_relevant-UC/g__Collinsella_uncultured-LMEM-Disease_severity2-randeff_week.qzv
